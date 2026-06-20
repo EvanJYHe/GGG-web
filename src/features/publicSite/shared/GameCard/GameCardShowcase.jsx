@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { cn } from "../../../../lib/utils.js";
 
 import {
@@ -20,6 +23,7 @@ const GameCardShowcase = ({ game, gameCard, showcaseSlot = "stack" }) => {
       href={game.url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => posthog.capture("game_card_clicked", { game_name: game.name, game_url: game.url, source: "home_showcase", showcase_slot: showcaseSlot })}
     >
       <div
         className={cn(

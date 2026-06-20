@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import posthog from "posthog-js";
 
 import FadeIn from "../../shared/FadeIn/FadeIn.jsx";
 import Parallax from "../../shared/Parallax/Parallax.jsx";
@@ -73,6 +76,7 @@ const Hero = ({ hero, heroKeyArtUrl }) => {
             href="/games"
             variant="primary"
             className="sm:w-full max-[640px]:py-[18px] max-[640px]:text-[15px] max-[400px]:px-4 max-[400px]:text-[13px]"
+            onClick={() => posthog.capture("hero_cta_clicked", { cta: "primary", label: hero.primaryCtaLabel })}
           >
             {hero.primaryCtaLabel}
           </Button>
@@ -84,6 +88,7 @@ const Hero = ({ hero, heroKeyArtUrl }) => {
               : {})}
             variant="ghost"
             className="sm:w-full max-[640px]:py-[18px] max-[640px]:text-[15px] max-[400px]:px-4 max-[400px]:text-[13px]"
+            onClick={() => posthog.capture("hero_cta_clicked", { cta: "secondary", label: hero.secondaryCtaLabel })}
           >
             {hero.secondaryCtaLabel}
           </Button>

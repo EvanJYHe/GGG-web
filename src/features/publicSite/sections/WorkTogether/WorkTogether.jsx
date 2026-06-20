@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 import SplitText from "../../shared/SplitText/SplitText.jsx";
 import Button from "../../ui/Button.jsx";
 import PageContainer from "../../ui/PageContainer.jsx";
@@ -44,6 +45,10 @@ const WorkTogether = ({ contactEmail, pumpkinKeyArtUrl, workTogether }) => {
     event.preventDefault();
     const subject = encodeURIComponent(`${workTogether.subjectPrefix}${form.name}`);
     const body = encodeURIComponent(`${form.message}\n\n${workTogether.replyPrefix} ${form.email}`);
+    posthog.capture("contact_form_submitted", {
+      has_name: Boolean(form.name),
+      has_message: Boolean(form.message),
+    });
     window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
   };
 
@@ -122,6 +127,7 @@ const WorkTogether = ({ contactEmail, pumpkinKeyArtUrl, workTogether }) => {
                 <a
                   href={`mailto:${contactEmail}`}
                   className="border-b border-ggg-accent pb-px text-ggg-text transition-colors hover:text-ggg-accent"
+                  onClick={() => posthog.capture("contact_email_direct_clicked")}
                 >
                   {contactEmail}
                 </a>

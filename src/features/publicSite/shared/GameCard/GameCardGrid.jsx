@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { cn } from "../../../../lib/utils.js";
 
 const GameCardGrid = ({ game, gameCard }) => {
@@ -9,6 +12,7 @@ const GameCardGrid = ({ game, gameCard }) => {
       href={game.url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => posthog.capture("game_card_clicked", { game_name: game.name, game_url: game.url, source: "games_grid" })}
     >
       <div className="relative aspect-square overflow-hidden bg-[#161616]">
         {game.image ? (

@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import posthog from "posthog-js";
 import { SiInstagram, SiRoblox, SiTiktok, SiYoutube } from "react-icons/si";
 
 import BrandLogo from "../../shared/BrandLogo/BrandLogo.jsx";
@@ -33,6 +36,7 @@ const Footer = ({ brandLogoUrl, footer, groupUrl, media, site }) => (
             href={link.href}
             rel="noopener noreferrer"
             target="_blank"
+            onClick={() => posthog.capture("social_link_clicked", { platform: link.platform, href: link.href })}
           >
             <Icon className="h-[17px] w-[17px]" />
           </a>
@@ -44,6 +48,7 @@ const Footer = ({ brandLogoUrl, footer, groupUrl, media, site }) => (
         href={groupUrl}
         rel="noopener noreferrer"
         target="_blank"
+        onClick={() => posthog.capture("social_link_clicked", { platform: "roblox", href: groupUrl })}
       >
         <SiRoblox className="h-[17px] w-[17px]" />
       </a>

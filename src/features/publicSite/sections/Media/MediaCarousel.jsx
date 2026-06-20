@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Instagram,
 } from "lucide-react";
+import posthog from "posthog-js";
 
 import { cn } from "../../../../lib/utils.js";
 
@@ -143,6 +144,7 @@ function MediaCta({ card, isActive, className }) {
         href={card.ctaHref}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => posthog.capture("media_cta_clicked", { cta_label: card.ctaLabel, cta_href: card.ctaHref, card_headline: card.headline })}
       >
         <span>{card.ctaLabel}</span>
         <ArrowUpRight size={16} strokeWidth={1.9} aria-hidden />
