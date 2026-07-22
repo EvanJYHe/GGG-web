@@ -1,4 +1,6 @@
 import { Bebas_Neue, Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "../globals.css";
 
@@ -32,7 +34,11 @@ export const metadata = {
 export default function PublicRootLayout({ children }) {
   return (
     <html lang="en" className={`${bebas.variable} ${inter.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

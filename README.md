@@ -99,7 +99,7 @@ Payload Local API explicitly as system operations.
 | Database       | PostgreSQL via Payload's Postgres adapter                 |
 | Object storage | Cloudflare R2 through the S3-compatible adapter           |
 | Live data      | Roblox game, vote, thumbnail, and group APIs              |
-| Analytics      | PostHog with same-origin ingestion rewrites               |
+| Analytics      | PostHog, Vercel Analytics, and Vercel Speed Insights      |
 | Infrastructure | Railway web service and scheduled refresh service         |
 | Quality        | Vitest, Playwright, ESLint, generated Payload types       |
 
