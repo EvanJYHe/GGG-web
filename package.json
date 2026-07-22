@@ -12,6 +12,7 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "seed:social-profile": "pnpm -s tsx src/scripts/seedSocialProfile.js",
     "runtime:refresh": "tsx src/scripts/runtimeRefresh.js",
     "runtime:refresh:watch": "tsx src/scripts/runtimeRefreshWatch.js",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",

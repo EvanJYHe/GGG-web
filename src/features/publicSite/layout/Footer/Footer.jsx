@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import posthog from "posthog-js";
-import { SiInstagram, SiRoblox, SiTiktok, SiYoutube } from "react-icons/si";
+import { SiInstagram, SiRoblox, SiTiktok, SiX, SiYoutube } from "react-icons/si";
 
 import BrandLogo from "../../shared/BrandLogo/BrandLogo.jsx";
 import PageContainer from "../../ui/PageContainer.jsx";
 
 const SOCIAL_ICONS = {
+  x: SiX,
   tiktok: SiTiktok,
   youtube: SiYoutube,
   instagram: SiInstagram,
