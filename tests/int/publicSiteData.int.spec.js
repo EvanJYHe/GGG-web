@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatCompactNumber,
   getPublicSiteGamesPageData,
   getPublicSiteTopTitles,
   splitCatalogGames,
@@ -52,5 +53,17 @@ describe("public site game curation", () => {
     ]);
 
     expect(result.map(({ universeId }) => universeId)).toEqual([2]);
+  });
+});
+
+describe("compact public metrics", () => {
+  it("uses one decimal of precision for large totals", () => {
+    expect(formatCompactNumber(97_180_432)).toBe("97.2M+");
+    expect(formatCompactNumber(4_418)).toBe("4.4K+");
+    expect(formatCompactNumber(1_293_370)).toBe("1.3M+");
+  });
+
+  it("keeps values below one thousand unabridged", () => {
+    expect(formatCompactNumber(999)).toBe("999");
   });
 });

@@ -1,6 +1,11 @@
 import { content, GROUP_URL } from "../content/publicSiteContent.js";
 
 const formatter = new Intl.NumberFormat("en-US");
+const compactFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "short",
+  maximumFractionDigits: 1,
+});
 
 function getResolvedContent(siteContent = content) {
   return {
@@ -13,20 +18,11 @@ export function formatCompactNumber(
   value,
   fallback = getResolvedContent().shared.missingValue
 ) {
-  if (value == null || Number.isNaN(Number(value))) return fallback;
+  if (value == null || !Number.isFinite(Number(value))) return fallback;
 
   const numeric = Number(value);
-  if (numeric >= 1_000_000) {
-    const compact = numeric / 1_000_000;
-    if (compact >= 10) {
-      return `${Math.ceil(compact)}M+`;
-    }
-
-    return `${(Math.ceil(compact * 10) / 10).toFixed(1)}M+`;
-  }
-
   if (numeric >= 1_000) {
-    return `${Math.ceil(numeric / 1_000)}K+`;
+    return `${compactFormatter.format(numeric)}+`;
   }
 
   return formatter.format(numeric);

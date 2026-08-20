@@ -2,17 +2,31 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-function parseMetricDisplay(target) {
+export function parseMetricDisplay(target) {
   const s = String(target).trim();
   const m = s.match(/^([^0-9]*)([\d,]+(?:\.\d+)?)([^\d]*)$/);
   if (!m) return null;
   const [, prefix, numPart, suffix] = m;
-  const n = parseFloat(numPart.replace(/,/g, ""));
+  const normalizedNumber = numPart.replace(/,/g, "");
+  const n = parseFloat(normalizedNumber);
   if (!Number.isFinite(n)) return null;
-  return { prefix: prefix || "", n, suffix: suffix ?? "" };
+  const decimalPlaces = normalizedNumber.split(".")[1]?.length || 0;
+  return { prefix: prefix || "", n, suffix: suffix ?? "", decimalPlaces };
 }
 
-function useCountUp(endValue, duration = 1600) {
+export function roundMetricValue(value, decimalPlaces = 0) {
+  const factor = 10 ** decimalPlaces;
+  return Math.round(value * factor) / factor;
+}
+
+export function formatMetricValue(value, decimalPlaces = 0) {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces,
+  });
+}
+
+function useCountUp(endValue, decimalPlaces = 0, duration = 1600) {
   const [val, setVal] = useState(0);
   const rafRef = useRef(null);
 
@@ -21,11 +35,11 @@ function useCountUp(endValue, duration = 1600) {
     const step = now => {
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - (1 - p) ** 3;
-      setVal(Math.round(endValue * eased));
+      setVal(roundMetricValue(endValue * eased, decimalPlaces));
       if (p < 1) rafRef.current = requestAnimationFrame(step);
     };
     rafRef.current = requestAnimationFrame(step);
-  }, [endValue, duration]);
+  }, [decimalPlaces, endValue, duration]);
 
   useEffect(
     () => () => {
@@ -41,7 +55,11 @@ export default function AnimatedStatValue({ value }) {
   const parsed = parseMetricDisplay(value);
   const ref = useRef(null);
   const ran = useRef(false);
-  const [displayVal, run] = useCountUp(parsed?.n ?? 0, 1600);
+  const [displayVal, run] = useCountUp(
+    parsed?.n ?? 0,
+    parsed?.decimalPlaces ?? 0,
+    1600
+  );
 
   useEffect(() => {
     if (!parsed) return undefined;
@@ -67,7 +85,7 @@ export default function AnimatedStatValue({ value }) {
   return (
     <span ref={ref} className="inline-block tabular-nums">
       {parsed.prefix}
-      {displayVal.toLocaleString()}
+      {formatMetricValue(displayVal, parsed.decimalPlaces)}
       {parsed.suffix}
     </span>
   );
