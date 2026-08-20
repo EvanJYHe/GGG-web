@@ -66,6 +66,25 @@ export function getPrimaryGroupUrl(groupData = []) {
   return primaryGroup?.id ? `https://www.roblox.com/groups/${primaryGroup.id}` : GROUP_URL;
 }
 
+export function isMainCatalogGame(game) {
+  return game?.isFeatured !== false;
+}
+
+export function splitCatalogGames(games = [], visibleLimit = Infinity) {
+  const catalogGames = Array.isArray(games) ? games : [];
+  const visibleGames = catalogGames
+    .filter(isMainCatalogGame)
+    .slice(0, visibleLimit);
+  const visibleUniverseIds = new Set(visibleGames.map((game) => game.universeId));
+
+  return {
+    visibleGames,
+    hiddenGames: catalogGames.filter(
+      (game) => !visibleUniverseIds.has(game.universeId)
+    ),
+  };
+}
+
 export function getLandingMetricValues({
   totalData,
   gameData,
@@ -139,6 +158,9 @@ export function getCatalogGames(gameData = [], gameImages = [], siteContent = co
 
   return [...games]
     .sort((a, b) => {
+      if (isMainCatalogGame(a) !== isMainCatalogGame(b)) {
+        return Number(isMainCatalogGame(b)) - Number(isMainCatalogGame(a));
+      }
       if ((a.displayOrder || 0) !== (b.displayOrder || 0)) {
         return (b.displayOrder || 0) - (a.displayOrder || 0);
       }
@@ -160,6 +182,7 @@ export function getPublicSiteTopTitles(
   siteContent = content
 ) {
   return getCatalogGames(gameData, gameImages, siteContent)
+    .filter(isMainCatalogGame)
     .slice(0, 5)
     .map((game) => ({ ...game, heroCard: false }));
 }

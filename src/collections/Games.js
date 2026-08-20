@@ -6,7 +6,7 @@ export const Games = {
   slug: "games",
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "universeId", "displayOrder"],
+    defaultColumns: ["name", "universeId", "isFeatured", "displayOrder"],
   },
   access: publicRead,
   fields: [
@@ -45,6 +45,16 @@ export const Games = {
       admin: {
         description:
           "Uncheck to hide this game everywhere on the public site (catalog, top titles, stats, and the +N more games tile). The record stays in the CMS so it can be re-enabled later.",
+      },
+    },
+    {
+      name: "isFeatured",
+      label: "Show in primary game list",
+      type: "checkbox",
+      defaultValue: true,
+      admin: {
+        description:
+          "Uncheck to keep this active game available in the catalog but move it behind the +N more games tile. It will also be omitted from the home page Top Titles showcase.",
       },
     },
   ],

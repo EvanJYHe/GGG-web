@@ -186,6 +186,10 @@ export interface Game {
    * Uncheck to hide this game everywhere on the public site (catalog, top titles, stats, and the +N more games tile). The record stays in the CMS so it can be re-enabled later.
    */
   isActive?: boolean | null;
+  /**
+   * Uncheck to keep this active game available in the catalog but move it behind the +N more games tile. It will also be omitted from the home page Top Titles showcase.
+   */
+  isFeatured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -510,6 +514,7 @@ export interface GamesSelect<T extends boolean = true> {
   name?: T;
   displayOrder?: T;
   isActive?: T;
+  isFeatured?: T;
   updatedAt?: T;
   createdAt?: T;
 }

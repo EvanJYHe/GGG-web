@@ -1,12 +1,17 @@
 import { getPublicSiteState } from "@/lib/publicSite/state.js";
-import { formatCompactNumber, getPublicSiteGamesPageData } from "../../data/publicSiteData.js";
+import {
+  formatCompactNumber,
+  getPublicSiteGamesPageData,
+  splitCatalogGames,
+} from "../../data/publicSiteData.js";
 import FadeIn from "../../shared/FadeIn/FadeIn.jsx";
 import GameCardGrid from "../../shared/GameCard/GameCardGrid.jsx";
 import MoreGamesCard from "../../shared/GameCard/MoreGamesCard.jsx";
 import StateCard from "../../ui/StateCard.jsx";
 import { GAMES_GALLERY_GRID_CLASS } from "./GamesGallerySkeleton.jsx";
 
-const VISIBLE_GAME_LIMIT = 11;
+// Reserve the final slot in a four-row desktop grid for the "more games" card.
+const VISIBLE_GAME_LIMIT = 15;
 const FADE_DELAY_STEP_MS = 60;
 const FADE_DELAY_MAX_INDEX = 7;
 
@@ -29,8 +34,10 @@ export default async function GamesGrid() {
     return <StateCard>{siteContent.gamesPage.emptyMessage}</StateCard>;
   }
 
-  const visibleGames = pageData.games.slice(0, VISIBLE_GAME_LIMIT);
-  const hiddenGames = pageData.games.slice(VISIBLE_GAME_LIMIT);
+  const { visibleGames, hiddenGames } = splitCatalogGames(
+    pageData.games,
+    VISIBLE_GAME_LIMIT
+  );
   const hiddenVisitsLabel = formatCompactNumber(sumHiddenVisits(hiddenGames));
 
   return (

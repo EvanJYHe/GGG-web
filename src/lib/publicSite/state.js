@@ -184,6 +184,7 @@ function toPublicGame(game, runtimeGame) {
     updated: runtimeGame?.updated || null,
     rootPlaceId: runtimeGame?.rootPlaceId || null,
     displayOrder: game.displayOrder || 0,
+    isFeatured: game.isFeatured !== false,
   };
 }
 
