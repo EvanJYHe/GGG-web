@@ -3,7 +3,7 @@ import { getPublicSiteState } from "@/lib/publicSite/state.js";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request) {
   const state = await getPublicSiteState();
-  return createPublicJsonResponse(state.contract, "site-data");
+  return createPublicJsonResponse(state.contract, "site-data", request);
 }

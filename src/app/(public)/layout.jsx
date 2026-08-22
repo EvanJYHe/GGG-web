@@ -2,6 +2,13 @@ import { Bebas_Neue, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import {
+  SITE_NAME,
+  createOrganizationJsonLd,
+  createPageMetadata,
+  getSiteUrl,
+  serializeJsonLd,
+} from "@/lib/site.js";
 import "../globals.css";
 
 const bebas = Bebas_Neue({
@@ -26,14 +33,25 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata = {
-  title: "Glazing Gorilla Games",
-  description:
-    "Glazing Gorillas is a Roblox game studio creating original titles, live experiences, and brand collaborations inside one of gaming’s biggest platforms.",
+  ...createPageMetadata(),
+  metadataBase: getSiteUrl(),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
 };
+
+const organizationJsonLd = serializeJsonLd(createOrganizationJsonLd());
 
 export default function PublicRootLayout({ children }) {
   return (
     <html lang="en" className={`${bebas.variable} ${inter.variable} ${mono.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: organizationJsonLd }}
+        />
+      </head>
       <body>
         {children}
         <Analytics />

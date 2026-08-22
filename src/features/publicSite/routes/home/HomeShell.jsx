@@ -15,24 +15,26 @@ const HomeShell = ({ children, groupUrl, mediaAssets, siteContent }) => (
       header={siteContent.header}
       site={siteContent.site}
     />
-    <Hero
-      hero={siteContent.hero}
-      heroKeyArtUrl={mediaAssets.heroKeyArt.url}
-    />
-
-    {children}
-
-    <FadeIn>
-      <AboutGGG aboutGGG={siteContent.aboutGGG} />
-    </FadeIn>
-    <div className={dividerClass} role="presentation" aria-hidden />
-    <FadeIn>
-      <WorkTogether
-        contactEmail={siteContent.site.contactEmail}
-        pumpkinKeyArtUrl={mediaAssets.contact.pumpkinKeyArt.url}
-        workTogether={siteContent.workTogether}
+    <main id="main-content">
+      <Hero
+        hero={siteContent.hero}
+        heroKeyArtUrl={mediaAssets.heroKeyArt.url}
       />
-    </FadeIn>
+
+      {children}
+
+      <FadeIn>
+        <AboutGGG aboutGGG={siteContent.aboutGGG} />
+      </FadeIn>
+      <div className={dividerClass} role="presentation" aria-hidden />
+      <FadeIn>
+        <WorkTogether
+          contactEmail={siteContent.site.contactEmail}
+          pumpkinKeyArtUrl={mediaAssets.contact.pumpkinKeyArt.url}
+          workTogether={siteContent.workTogether}
+        />
+      </FadeIn>
+    </main>
     <Footer
       brandLogoUrl={mediaAssets.brandLogo.url}
       footer={siteContent.footer}
