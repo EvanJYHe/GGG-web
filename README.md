@@ -144,6 +144,7 @@ the environment when analytics are configured.
 | `PAYLOAD_SECRET`                    | signs Payload authentication tokens |
 | `DATABASE_URL`                      | PostgreSQL connection string        |
 | `NEXT_PUBLIC_SITE_URL`              | canonical application URL           |
+| `ALLOWED_ORIGINS`                   | extra admin origins for Payload CSRF (comma-separated) |
 | `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` | optional PostHog project token      |
 | `R2_BUCKET`                         | R2 bucket name                      |
 | `R2_PUBLIC_URL`                     | public base URL for stored media    |

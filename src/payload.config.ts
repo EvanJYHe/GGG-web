@@ -23,6 +23,11 @@ const dirname = path.dirname(filename);
 
 dotenv.config({ path: path.resolve(dirname, "..", ".env") });
 
+const csrfOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const r2Enabled = Boolean(
   process.env.R2_BUCKET &&
     process.env.R2_PUBLIC_URL &&
@@ -39,6 +44,7 @@ export default buildConfig({
     return process.env.PAYLOAD_SECRET;
   })(),
   serverURL: process.env.NEXT_PUBLIC_SITE_URL,
+  csrf: csrfOrigins,
   admin: {
     user: "users",
   },
