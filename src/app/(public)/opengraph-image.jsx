@@ -75,8 +75,11 @@ const buttonStyle = {
   lineHeight: 1,
   padding: "16px 30px",
   textTransform: "uppercase",
-  WebkitTextStroke: "0.5px currentColor",
 };
+
+function boldText(color, strokeWidth) {
+  return { color, WebkitTextStroke: `${strokeWidth}px ${color}` };
+}
 
 export default async function OpenGraphImage() {
   const [fonts, { hero, keyArtUrl }] = await Promise.all([loadFonts(), loadHeroContent()]);
@@ -169,15 +172,12 @@ export default async function OpenGraphImage() {
             letterSpacing: "0.01em",
             lineHeight: 0.88,
             textTransform: "uppercase",
-            WebkitTextStroke: "2.5px currentColor",
           }}
         >
           {titleLines.map((line, index) => (
             <span
               key={`${index}-${line}`}
-              style={{
-                color: index === titleLines.length - 1 ? COLORS.accent : COLORS.text,
-              }}
+              style={boldText(index === titleLines.length - 1 ? COLORS.accent : COLORS.text, 2.5)}
             >
               {line}
             </span>
@@ -199,14 +199,14 @@ export default async function OpenGraphImage() {
         </div>
 
         <div style={{ display: "flex", gap: 14, marginTop: 36 }}>
-          <div style={{ ...buttonStyle, background: COLORS.accent, color: "#ffffff" }}>
+          <div style={{ ...buttonStyle, ...boldText("#ffffff", 0.5), background: COLORS.accent }}>
             {hero.primaryCtaLabel}
           </div>
           <div
             style={{
               ...buttonStyle,
+              ...boldText(COLORS.text, 0.5),
               border: `1px solid ${COLORS.border}`,
-              color: COLORS.text,
             }}
           >
             {hero.secondaryCtaLabel}
