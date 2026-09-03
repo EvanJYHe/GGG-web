@@ -46,13 +46,22 @@ test.describe('Public discovery resources', () => {
     await expect(page.getByRole('link', { name: 'Games' })).toHaveAttribute('href', '/games')
   })
 
-  test('publishes metadata and structured identity without adding navigation pages', async ({ page }) => {
+  test('publishes metadata and structured identity without adding navigation pages', async ({ page, request }) => {
     await page.goto(baseUrl)
     const canonical = await page.locator('link[rel="canonical"]').getAttribute('href')
     expect(canonical).toBeTruthy()
     expect(new URL(canonical || baseUrl).pathname).toBe('/')
     await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'website')
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /opengraph-image/)
+
+    const ogImageUrl = new URL((await page.locator('meta[property="og:image"]').getAttribute('content')) || '', baseUrl)
+    const ogImage = await request.get(`${baseUrl}${ogImageUrl.pathname}${ogImageUrl.search}`)
+    expect(ogImage.status()).toBe(200)
+    expect(ogImage.headers()['content-type']).toContain('image/png')
+    const png = await ogImage.body()
+    expect(png.subarray(0, 8).toString('hex')).toBe('89504e470d0a1a0a')
+    expect(png.readUInt32BE(16)).toBe(1200)
+    expect(png.readUInt32BE(20)).toBe(630)
 
     const jsonLd = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || '{}')
     expect(jsonLd['@type']).toBe('Organization')
