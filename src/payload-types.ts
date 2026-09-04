@@ -179,7 +179,7 @@ export interface Game {
    */
   name?: string | null;
   /**
-   * Higher values appear first. Leave at 0 for the default ranking (sorted by lifetime visits). Use a positive value to pin a game above the rest.
+   * Higher values appear first. Leave at 0 for the default ranking (sorted by live player count, then lifetime visits). Use a positive value to pin a game above the rest.
    */
   displayOrder?: number | null;
   /**

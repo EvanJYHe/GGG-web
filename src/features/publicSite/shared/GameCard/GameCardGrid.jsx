@@ -3,6 +3,9 @@
 import posthog from "posthog-js";
 import { cn } from "../../../../lib/utils.js";
 
+import GameCardLiveBadge from "./GameCardLiveBadge.jsx";
+import GameCardVisits from "./GameCardVisits.jsx";
+
 const GameCardGrid = ({ game, gameCard }) => {
   return (
     <a
@@ -32,18 +35,14 @@ const GameCardGrid = ({ game, gameCard }) => {
         <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_20%,rgba(0,0,0,0.08)_44%,rgba(0,0,0,0.48)_70%,rgba(0,0,0,0.94)_100%)]" />
         <div className="pointer-events-none absolute inset-0 z-[2] opacity-100 mix-blend-screen bg-[radial-gradient(circle_at_24%_18%,rgba(118,215,255,0.28)_0%,transparent_36%),radial-gradient(circle_at_82%_22%,rgba(255,140,128,0.14)_0%,transparent_32%),linear-gradient(180deg,rgba(89,112,255,0.18)_0%,rgba(46,59,118,0.08)_30%,transparent_54%,rgba(0,0,0,0.18)_100%)]" />
 
+        <GameCardLiveBadge game={game} gameCard={gameCard} />
+
         <div className="absolute inset-x-0 bottom-0 z-[4] flex flex-col items-start gap-1.5 p-3.5 pb-4">
           <div className="line-clamp-2 text-ggg-body-sm font-extrabold leading-[1.16] tracking-[0.01em] text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.95),0_0_1px_rgba(0,0,0,0.9)] sm:text-sm">
             {game.name}
           </div>
 
-          <div className="inline-flex items-center gap-[5px] whitespace-nowrap text-[10.5px] font-semibold text-white/[0.86] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)] sm:text-[11px]">
-            <span className="h-0 w-0 border-b-[3px] border-l-[5px] border-t-[3px] border-b-transparent border-l-ggg-accent border-t-transparent drop-shadow-[0_0_6px_rgba(255,112,86,0.45)]" />
-            <span className="font-extrabold text-white">
-              {game.visitsCompactLabel ?? game.visitsLabel}
-            </span>
-            <span className="text-white/[0.76]">{gameCard.visitsUnitLabel}</span>
-          </div>
+          <GameCardVisits game={game} gameCard={gameCard} className="sm:text-[11px]" />
         </div>
       </div>
     </a>

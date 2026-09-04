@@ -46,6 +46,35 @@ describe("public site game curation", () => {
     expect(hiddenGames.map(({ universeId }) => universeId)).toEqual([2, 3]);
   });
 
+  it("ranks games by live players before lifetime visits", () => {
+    const result = getPublicSiteGamesPageData({
+      gameData: [
+        game(1, { visits: 1_000_000, playing: 5 }),
+        game(2, { visits: 100, playing: 500 }),
+        game(3, { visits: 5_000, playing: 5 }),
+      ],
+    });
+
+    expect(result.games.map(({ universeId }) => universeId)).toEqual([2, 1, 3]);
+  });
+
+  it("keeps displayOrder pins above the live ranking", () => {
+    const result = getPublicSiteGamesPageData({
+      gameData: [game(1, { playing: 900 }), game(2, { playing: 1, displayOrder: 1 })],
+    });
+
+    expect(result.games.map(({ universeId }) => universeId)).toEqual([2, 1]);
+  });
+
+  it("formats live player counts for game cards", () => {
+    const [first] = getPublicSiteGamesPageData({
+      gameData: [game(1, { playing: 15_622 })],
+    }).games;
+
+    expect(first.playingCompactLabel).toBe("15.6K+");
+    expect(first.playingLabel).toBe("15,622");
+  });
+
   it("does not place unfeatured games in the home page Top Titles showcase", () => {
     const result = getPublicSiteTopTitles([
       game(1, { visits: 1_000_000, isFeatured: false }),

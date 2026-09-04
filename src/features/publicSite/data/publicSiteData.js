@@ -160,6 +160,9 @@ export function getCatalogGames(gameData = [], gameImages = [], siteContent = co
       if ((a.displayOrder || 0) !== (b.displayOrder || 0)) {
         return (b.displayOrder || 0) - (a.displayOrder || 0);
       }
+      if ((a.playing || 0) !== (b.playing || 0)) {
+        return (b.playing || 0) - (a.playing || 0);
+      }
       return (b.visits || 0) - (a.visits || 0);
     })
     .map((game, index) => ({
@@ -167,6 +170,8 @@ export function getCatalogGames(gameData = [], gameImages = [], siteContent = co
       image: getGameImage(game, gameImages),
       url: getGameUrl(game),
       heroCard: index === 0,
+      playingLabel: formatFullNumber(game.playing, shared.zeroValue),
+      playingCompactLabel: formatCompactNumber(game.playing, shared.zeroValue),
       visitsLabel: formatFullNumber(game.visits, shared.zeroValue),
       visitsCompactLabel: formatCompactNumber(game.visits, shared.zeroValue),
     }));

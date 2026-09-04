@@ -3,6 +3,8 @@
 import posthog from "posthog-js";
 import { cn } from "../../../../lib/utils.js";
 
+import GameCardLiveBadge from "./GameCardLiveBadge.jsx";
+import GameCardVisits from "./GameCardVisits.jsx";
 import {
   featuredShadow,
   slotSizing,
@@ -61,6 +63,12 @@ const GameCardShowcase = ({ game, gameCard, showcaseSlot = "stack" }) => {
           )}
         />
 
+        <GameCardLiveBadge
+          game={game}
+          gameCard={gameCard}
+          className={cn(showsBadge && "left-3 top-3")}
+        />
+
         <div
           className={cn(
             "absolute inset-x-0 bottom-0 z-[4] flex flex-col items-start gap-1.5 p-3.5 pb-4",
@@ -83,18 +91,11 @@ const GameCardShowcase = ({ game, gameCard, showcaseSlot = "stack" }) => {
               {game.name}
             </div>
 
-            <div
-              className={cn(
-                "mt-1.5 inline-flex items-center gap-[5px] whitespace-nowrap text-[10.5px] font-semibold text-white/[0.86] [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]",
-                showsBadge && "mt-[7px] text-xs",
-              )}
-            >
-              <span className="h-0 w-0 border-b-[3px] border-l-[5px] border-t-[3px] border-b-transparent border-l-ggg-accent border-t-transparent drop-shadow-[0_0_6px_rgba(255,112,86,0.45)]" />
-              <span className="font-extrabold text-white">
-                {game.visitsCompactLabel ?? game.visitsLabel}
-              </span>
-              <span className="text-white/[0.76]">{gameCard.visitsUnitLabel}</span>
-            </div>
+            <GameCardVisits
+              game={game}
+              gameCard={gameCard}
+              className={cn("mt-1.5", showsBadge && "mt-[7px] text-xs")}
+            />
           </div>
         </div>
       </div>

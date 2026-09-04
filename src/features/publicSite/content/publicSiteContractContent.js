@@ -215,6 +215,7 @@ export const publicSiteContractContent = {
   },
   gameCard: {
     artworkPlaceholderSuffix: "artwork",
+    playingUnitLabel: "playing",
     visitsUnitLabel: "visits",
   },
   gamesPage: {
